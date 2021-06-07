@@ -26,7 +26,7 @@ public class PushManage {
     private static final int mWidth_OUT = 1280;
     private static final int mHeight_OUT = 720;
 
-    private boolean mIsEncode;//开启编码
+    private boolean mOpenEncode;//开启编码
     private boolean mIsPushing;
     private boolean mIsRecording;
     private boolean mIsEncodeFrame;
@@ -54,23 +54,19 @@ public class PushManage {
         mPublisher.startCamera();
     }
 
-    public boolean isEncodeH264() {
-        return mIsEncode;
-    }
-
     public void startEncodeH264() {
-        if (mIsEncode) {
+        if (mOpenEncode) {
             return;
         }
-        mIsEncode = true;
+        mOpenEncode = true;
         mPublisher.startEncode();
     }
 
     public void stopEncode() {
-        if (!mIsEncode) {
+        if (!mOpenEncode) {
             return;
         }
-        mIsEncode = false;
+        mOpenEncode = false;
         mPublisher.stopEncode();
     }
 
