@@ -20,6 +20,7 @@ public class DemonActivity extends Activity implements View.OnClickListener {
 
     private TextView tv_push;
     private TextView tv_record;
+    private TextView tv_resolution;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,11 +35,13 @@ public class DemonActivity extends Activity implements View.OnClickListener {
     private void initView() {
         tv_push = findViewById(R.id.tv_push);
         tv_record = findViewById(R.id.tv_record);
+        tv_resolution = findViewById(R.id.tv_resolution);
     }
 
     private void initListener() {
         tv_push.setOnClickListener(this);
         tv_record.setOnClickListener(this);
+        tv_resolution.setOnClickListener(this);
     }
 
     private PushManage mPush;
@@ -84,6 +87,8 @@ public class DemonActivity extends Activity implements View.OnClickListener {
             clickPush();
         } else if (v == tv_record) {
             clickRecord();
+        } else if (v == tv_resolution) {
+            clickResolution();
         }
     }
 
@@ -115,6 +120,15 @@ public class DemonActivity extends Activity implements View.OnClickListener {
             getPush().startRecord(record);
         }
     }
+
+    private void clickResolution() {
+        if (getPush().isRecording()) {
+            getPush().startResolution(1);
+        } else if (getPush().isPushing()) {
+            getPush().startResolution(1);
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

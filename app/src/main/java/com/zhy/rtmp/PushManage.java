@@ -7,6 +7,7 @@ import android.graphics.ImageFormat;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.github.faucamp.simplertmp.RtmpHandler;
 
@@ -21,6 +22,8 @@ import java.net.SocketException;
 
 public class PushManage {
 
+    private static final String TAG = PushManage.class.getSimpleName();
+
     private static final int mPreviewWidth = 1920;
     private static final int mPreviewHeight = 1080;
     private static final int mWidth_OUT = 1280;
@@ -30,6 +33,7 @@ public class PushManage {
     private boolean mIsPushing;
     private boolean mIsRecording;
     private boolean mIsEncodeFrame;
+    private String mRtpUrl;
 
     private final SrsPublisher mPublisher;
 
@@ -84,6 +88,7 @@ public class PushManage {
         }
 
         mIsPushing = true;
+        mRtpUrl = rtp_url;
         mPublisher.startPublish2(rtp_url);
     }
 
@@ -111,6 +116,42 @@ public class PushManage {
             return;
         }
         mPublisher.stopRecord();
+    }
+
+
+    private boolean mStartResolution;
+    private int mResolution;
+    private boolean mPushing;
+
+    public void startResolution(int resolution) {
+        mStartResolution = true;
+        mResolution = resolution;
+        mPushing = isPushing();
+        onDestroy();
+    }
+
+    private void resetResolution() {
+        Log.e(TAG, "resetResolution");
+        int width_out = mWidth_OUT;
+        int height_out = mHeight_OUT;
+        if (mResolution == 1) {
+            mPublisher.setVideoSmoothMode();
+            width_out = 640;
+            height_out = 360;
+        } else if (mResolution == 2) {
+            mPublisher.setVideoMode720();
+        } else if (mResolution == 3) {
+            mPublisher.setVideoHDMode();
+            width_out = 1920;
+            height_out = 1080;
+        }
+        mPublisher.setOutputResolution(width_out, height_out);
+        startCamera();
+        startEncodeH264();
+        if (mPushing) {
+            startPushRtp(mRtpUrl);
+        }
+        mStartResolution = false;
     }
 
     public void onDestroy() {
@@ -166,6 +207,9 @@ public class PushManage {
         @Override
         public void onRtmpDisconnected() {
             mIsPushing = false;
+            if (mStartResolution && !mIsRecording) {
+                resetResolution();
+            }
         }
 
         @Override
@@ -228,6 +272,10 @@ public class PushManage {
         public void onRecordFinished(String msg) {
             mIsRecording = false;
             onFinishRecord(msg);
+
+            if (mStartResolution && !mIsPushing) {
+                resetResolution();
+            }
         }
 
         @Override
@@ -262,7 +310,7 @@ public class PushManage {
 
         if (b.length != 0) {
             Bitmap result = BitmapFactory.decodeByteArray(stream.toByteArray(), 0, b.length);
-            onFrameBitmap(result);
+            //生成Bitmap图片
         }
     }
 
@@ -279,10 +327,6 @@ public class PushManage {
     }
 
     public void onFinishRecord(String msg) {
-
-    }
-
-    protected void onFrameBitmap(Bitmap bitmap) {
 
     }
 }
