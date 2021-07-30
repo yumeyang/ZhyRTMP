@@ -4,7 +4,6 @@ import android.hardware.Camera;
 import android.media.AudioRecord;
 import android.media.audiofx.AcousticEchoCanceler;
 import android.media.audiofx.AutomaticGainControl;
-import android.util.Log;
 
 import com.github.faucamp.simplertmp.RtmpHandler;
 import com.seu.magicfilter.utils.MagicFilterType;
@@ -42,7 +41,6 @@ public class SrsPublisher {
         mCameraView.setPreviewCallback(new SrsCameraView.PreviewCallback() {
             @Override
             public void onGetRgbaFrame(byte[] data, int width, int height) {
-                Log.e("PushManage"," onGetRgbaFrame =============== ");
                 calcSamplingFps();
                 if (!sendAudioOnly) {
                     mEncoder.onGetRgbaFrame(data, width, height);
@@ -296,6 +294,10 @@ public class SrsPublisher {
 
     public void setVideoHDMode() {
         mEncoder.setVideoHDMode();
+    }
+
+    public void setVideoMode720() {
+        mEncoder.setVideoMode720();
     }
 
     public void setVideoSmoothMode() {

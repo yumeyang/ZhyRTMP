@@ -25,7 +25,7 @@ import java.nio.ByteBuffer;
  * The hint media header contains general information, independent of the protocaol, for hint tracks. Resides
  * in Media Information Box.
  *
- * @see com.coremedia.iso.boxes.MediaInformationBox
+ * @see MediaInformationBox
  */
 public class HintMediaHeaderBox extends AbstractMediaHeaderBox {
     private int maxPduSize;

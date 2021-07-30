@@ -28,7 +28,7 @@ import java.nio.ByteBuffer;
  * The Scheme Type Box identifies the protection scheme. Resides in  a Protection Scheme Information Box or
  * an SRTP Process Box.
  *
- * @see com.coremedia.iso.boxes.SchemeInformationBox
+ * @see SchemeInformationBox
  */
 public class SchemeTypeBox extends AbstractFullBox {
     public static final String TYPE = "schm";

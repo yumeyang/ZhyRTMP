@@ -128,9 +128,9 @@ public class TimeToSampleBox extends AbstractFullBox {
      *
      * @return decoding time per sample
      */
-    public static long[] blowupTimeToSamples(List<TimeToSampleBox.Entry> entries) {
+    public static long[] blowupTimeToSamples(List<Entry> entries) {
         long numOfSamples = 0;
-        for (TimeToSampleBox.Entry entry : entries) {
+        for (Entry entry : entries) {
             numOfSamples += entry.getCount();
         }
         assert numOfSamples <= Integer.MAX_VALUE;
@@ -139,7 +139,7 @@ public class TimeToSampleBox extends AbstractFullBox {
         int current = 0;
 
 
-        for (TimeToSampleBox.Entry entry : entries) {
+        for (Entry entry : entries) {
             for (int i = 0; i < entry.getCount(); i++) {
                 decodingTime[current++] = entry.getDelta();
             }

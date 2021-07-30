@@ -47,8 +47,8 @@ public class CAVLCReader extends BitstreamReader {
      * Read unsigned exp-golomb code
      *
      * @return
-     * @throws java.io.IOException
-     * @throws java.io.IOException
+     * @throws IOException
+     * @throws IOException
      */
     private int readUE() throws IOException {
         int cnt = 0;

@@ -21,7 +21,7 @@ import com.googlecode.mp4parser.AbstractContainerBox;
 /**
  * <code>
  * Box Type: 'dinf'<br>
- * Container: {@link com.coremedia.iso.boxes.MediaInformationBox} ('minf')<br>
+ * Container: {@link MediaInformationBox} ('minf')<br>
  * Mandatory: Yes<br>
  * Quantity: Exactly one<br><br></code>
  * The data information box contains objects that declare the location of the media information in a track.

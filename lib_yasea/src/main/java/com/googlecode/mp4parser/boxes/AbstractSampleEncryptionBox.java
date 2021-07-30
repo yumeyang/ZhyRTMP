@@ -206,7 +206,7 @@ public abstract class AbstractSampleEncryptionBox extends AbstractFullBox {
 
             if (isSubSampleEncryption()) {
                 size += 2;
-                for (Entry.Pair pair : pairs) {
+                for (Pair pair : pairs) {
                     size += 6;
                 }
             }

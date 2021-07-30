@@ -42,7 +42,7 @@ public abstract class AbstractBoxParser implements BoxParser {
      * @param byteChannel the FileChannel pointing to the ISO file
      * @param parent      the current box's parent (null if no parent)
      * @return the box just parsed
-     * @throws java.io.IOException if reading from <code>in</code> fails
+     * @throws IOException if reading from <code>in</code> fails
      */
     public Box parseBox(ReadableByteChannel byteChannel, ContainerBox parent) throws IOException {
 

@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 /**
  * Apple Meaning box. Allowed as subbox of "----" box.
  *
- * @see com.coremedia.iso.boxes.apple.AppleGenericBox
+ * @see AppleGenericBox
  */
 public final class AppleMeanBox extends AbstractFullBox {
     public static final String TYPE = "mean";

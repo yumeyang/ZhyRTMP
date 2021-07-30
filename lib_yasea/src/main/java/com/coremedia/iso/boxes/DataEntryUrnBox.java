@@ -25,7 +25,7 @@ import java.nio.ByteBuffer;
 /**
  * Only used within the DataReferenceBox. Find more information there.
  *
- * @see com.coremedia.iso.boxes.DataReferenceBox
+ * @see DataReferenceBox
  */
 public class DataEntryUrnBox extends AbstractFullBox {
     private String name;

@@ -25,7 +25,7 @@ import java.nio.ByteBuffer;
 /**
  * The Item Protection Box provides an array of item protection information, for use by the Item Information Box.
  *
- * @see com.coremedia.iso.boxes.ItemProtectionBox
+ * @see ItemProtectionBox
  */
 public class ItemProtectionBox extends FullContainerBox {
 

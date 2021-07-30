@@ -27,7 +27,7 @@ import java.nio.ByteBuffer;
 /**
  * AMR audio format specific subbox of an audio sample entry.
  *
- * @see com.coremedia.iso.boxes.sampleentry.AudioSampleEntry
+ * @see AudioSampleEntry
  */
 public class AmrSpecificBox extends AbstractBox {
     public static final String TYPE = "damr";

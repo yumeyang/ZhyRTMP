@@ -456,9 +456,9 @@ public class FragmentedMp4Builder implements Mp4Builder {
     /**
      * Creates a fully populated 'moov' box with all child boxes. Child boxes are:
      * <ul>
-     * <li>{@link #createMvhd(com.googlecode.mp4parser.authoring.Movie) mvhd}</li>
-     * <li>{@link #createMvex(com.googlecode.mp4parser.authoring.Movie)  mvex}</li>
-     * <li>a {@link #createTrak(com.googlecode.mp4parser.authoring.Track, com.googlecode.mp4parser.authoring.Movie)  trak} for every track</li>
+     * <li>{@link #createMvhd(Movie) mvhd}</li>
+     * <li>{@link #createMvex(Movie)  mvex}</li>
+     * <li>a {@link #createTrak(Track, Movie)  trak} for every track</li>
      * </ul>
      *
      * @param movie the concerned movie
@@ -558,7 +558,7 @@ public class FragmentedMp4Builder implements Mp4Builder {
 
     /**
      * Creates a 'mfra' - movie fragment random access box for the given movie in the given
-     * isofile. Uses {@link #createTfra(com.googlecode.mp4parser.authoring.Track, com.coremedia.iso.IsoFile)}
+     * isofile. Uses {@link #createTfra(Track, IsoFile)}
      * to generate the child boxes.
      *
      * @param movie   concerned movie
@@ -596,7 +596,7 @@ public class FragmentedMp4Builder implements Mp4Builder {
 
     /**
      * Creates a 'mvex' - movie extends box and populates it with 'trex' boxes
-     * by calling {@link #createTrex(com.googlecode.mp4parser.authoring.Movie, com.googlecode.mp4parser.authoring.Track)}
+     * by calling {@link #createTrex(Movie, Track)}
      * for each track to generate them
      *
      * @param movie the source movie

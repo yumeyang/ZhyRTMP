@@ -28,7 +28,7 @@ import java.nio.ByteBuffer;
  * Meta information in a 'udta' box about a track.
  * Defined in 3GPP 26.244.
  *
- * @see com.coremedia.iso.boxes.UserDataBox
+ * @see UserDataBox
  */
 public class AuthorBox extends AbstractFullBox {
     public static final String TYPE = "auth";

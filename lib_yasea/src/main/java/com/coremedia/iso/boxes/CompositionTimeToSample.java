@@ -127,9 +127,9 @@ public class CompositionTimeToSample extends AbstractFullBox {
      *
      * @return decoding time per sample
      */
-    public static int[] blowupCompositionTimes(List<CompositionTimeToSample.Entry> entries) {
+    public static int[] blowupCompositionTimes(List<Entry> entries) {
         long numOfSamples = 0;
-        for (CompositionTimeToSample.Entry entry : entries) {
+        for (Entry entry : entries) {
             numOfSamples += entry.getCount();
         }
         assert numOfSamples <= Integer.MAX_VALUE;
@@ -138,7 +138,7 @@ public class CompositionTimeToSample extends AbstractFullBox {
         int current = 0;
 
 
-        for (CompositionTimeToSample.Entry entry : entries) {
+        for (Entry entry : entries) {
             for (int i = 0; i < entry.getCount(); i++) {
                 decodingTime[current++] = entry.getOffset();
             }

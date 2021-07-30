@@ -266,7 +266,12 @@ public class SrsEncoder {
     }
 
     public void setVideoHDMode() {
-        vBitrate = 2048 * 1024;  // 1200 kbps
+        vBitrate = 2000 * 1024;  // 2000 Kbps 2M 1080
+        x264Preset = "faster";
+    }
+
+    public void setVideoMode720() {
+        vBitrate = 1200 * 1024;  // 1200 kbps 1M 720
         x264Preset = "veryfast";
     }
 

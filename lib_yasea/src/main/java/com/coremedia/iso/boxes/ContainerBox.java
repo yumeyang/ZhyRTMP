@@ -57,7 +57,7 @@ public interface ContainerBox extends Box {
 
     /**
      * Gets the parent box. May be <code>null</code> in case of the
-     * {@link com.coremedia.iso.IsoFile} itself.
+     * {@link IsoFile} itself.
      *
      * @return a <code>ContainerBox</code> that contains <code>this</code>
      */

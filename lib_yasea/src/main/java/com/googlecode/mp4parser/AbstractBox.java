@@ -38,8 +38,8 @@ import static com.googlecode.mp4parser.util.CastUtils.l2i;
 /**
  * A basic on-demand parsing box. Requires the implementation of three methods to become a fully working box:
  * <ol>
- * <li>{@link #_parseDetails(java.nio.ByteBuffer)}</li>
- * <li>{@link #getContent(java.nio.ByteBuffer)}</li>
+ * <li>{@link #_parseDetails(ByteBuffer)}</li>
+ * <li>{@link #getContent(ByteBuffer)}</li>
  * <li>{@link #getContentSize()}</li>
  * </ol>
  * additionally this new box has to be put into the <code>isoparser-default.properties</code> file so that
@@ -71,7 +71,7 @@ public abstract class AbstractBox implements Box {
      * that <code>getContent(ByteBuffer)</code> writes.
      *
      * @return Gets the box's content size in bytes
-     * @see #getContent(java.nio.ByteBuffer)
+     * @see #getContent(ByteBuffer)
      */
     protected abstract long getContentSize();
 

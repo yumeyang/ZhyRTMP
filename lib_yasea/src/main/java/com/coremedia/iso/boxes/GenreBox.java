@@ -26,7 +26,7 @@ import java.nio.ByteBuffer;
 /**
  * Containing genre information and contained in the <code>UserDataBox</code>.
  *
- * @see com.coremedia.iso.boxes.UserDataBox
+ * @see UserDataBox
  */
 public class GenreBox extends AbstractFullBox {
     public static final String TYPE = "gnre";

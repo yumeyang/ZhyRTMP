@@ -154,7 +154,7 @@ public class PictureParameterSet extends BitstreamElement {
         pps.redundant_pic_cnt_present_flag = reader
                 .readBool("PPS: redundant_pic_cnt_present_flag");
         if (reader.moreRBSPData()) {
-            pps.extended = new PictureParameterSet.PPSExt();
+            pps.extended = new PPSExt();
             pps.extended.transform_8x8_mode_flag = reader
                     .readBool("PPS: transform_8x8_mode_flag");
             boolean pic_scaling_matrix_present_flag = reader
