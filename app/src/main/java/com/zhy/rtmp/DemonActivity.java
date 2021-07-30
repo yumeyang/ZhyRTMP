@@ -93,7 +93,6 @@ public class DemonActivity extends Activity implements View.OnClickListener {
     }
 
     private void clickPush() {
-
         if (getPush().isPushing()) {
             getPush().stopPushRtp();
             tv_push.setText("开始推流");
@@ -104,7 +103,6 @@ public class DemonActivity extends Activity implements View.OnClickListener {
     }
 
     private void clickRecord() {
-
         tv_record.setClickable(false);
         if (getPush().isRecording()) {
             getPush().stopRecord();
