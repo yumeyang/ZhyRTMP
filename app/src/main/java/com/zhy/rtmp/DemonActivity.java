@@ -93,7 +93,6 @@ public class DemonActivity extends Activity implements View.OnClickListener {
     }
 
     private void clickPush() {
-        getPush().startEncodeH264();
 
         if (getPush().isPushing()) {
             getPush().stopPushRtp();
@@ -105,7 +104,6 @@ public class DemonActivity extends Activity implements View.OnClickListener {
     }
 
     private void clickRecord() {
-        getPush().startEncodeH264();
 
         tv_record.setClickable(false);
         if (getPush().isRecording()) {
