@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 
 /**
  * Main RTMP connection implementation class
- * 
+ *
  * @author francois, leoma
  */
 public class RtmpConnection implements RtmpPublisher {
@@ -112,13 +112,13 @@ public class RtmpConnection implements RtmpPublisher {
             streamName = matcher.group(6);
         } else {
             mHandler.notifyRtmpIllegalArgumentException(new IllegalArgumentException(
-                "Invalid RTMP URL. Must be in format: rtmp://host[:port]/application/streamName"));
+                    "Invalid RTMP URL. Must be in format: rtmp://host[:port]/application/streamName"));
             return false;
         }
 
         if (appName == null || streamName == null) {
             mHandler.notifyRtmpIllegalArgumentException(new IllegalArgumentException(
-                "Invalid RTMP URL. Must be in format: rtmp://host[:port]/application/streamName"));
+                    "Invalid RTMP URL. Must be in format: rtmp://host[:port]/application/streamName"));
             return false;
         }
 
@@ -364,8 +364,12 @@ public class RtmpConnection implements RtmpPublisher {
 
             // shutdown socket as well as its input and output stream
             try {
-                socket.close();
-                Log.d(TAG, "socket closed");
+                if (socket != null) {
+                    socket.close();
+                    Log.d(TAG, "socket closed");
+                } else {
+                    Log.d(TAG, "socket: null");
+                }
             } catch (IOException ex) {
                 Log.e(TAG, "shutdown(): failed to close socket", ex);
             }
@@ -515,58 +519,62 @@ public class RtmpConnection implements RtmpPublisher {
         while (!Thread.interrupted()) {
             try {
                 // It will be blocked when no data in input stream buffer
-                RtmpPacket rtmpPacket = rtmpDecoder.readPacket(inputStream);
-                if (rtmpPacket != null) {
-                    //Log.d(TAG, "handleRxPacketLoop(): RTMP rx packet message type: " + rtmpPacket.getHeader().getMessageType());
-                    switch (rtmpPacket.getHeader().getMessageType()) {
-                        case ABORT:
-                            rtmpSessionInfo.getChunkStreamInfo(((Abort) rtmpPacket).getChunkStreamId()).clearStoredChunks();
-                            break;
-                        case USER_CONTROL_MESSAGE:
-                            UserControl user = (UserControl) rtmpPacket;
-                            switch (user.getType()) {
-                                case STREAM_BEGIN:
-                                    if (currentStreamId != user.getFirstEventData()) {
-                                        mHandler.notifyRtmpIllegalStateException(new IllegalStateException("Current stream ID error!"));
-                                    }
-                                    break;
-                                case PING_REQUEST:
-                                    ChunkStreamInfo channelInfo = rtmpSessionInfo.getChunkStreamInfo(ChunkStreamInfo.RTMP_CID_PROTOCOL_CONTROL);
-                                    Log.d(TAG, "handleRxPacketLoop(): Sending PONG reply..");
-                                    UserControl pong = new UserControl(user, channelInfo);
-                                    sendRtmpPacket(pong);
-                                    break;
-                                case STREAM_EOF:
-                                    Log.i(TAG, "handleRxPacketLoop(): Stream EOF reached, closing RTMP writer...");
-                                    break;
-                                default:
-                                    // Ignore...
-                                    break;
-                            }
-                            break;
-                        case WINDOW_ACKNOWLEDGEMENT_SIZE:
-                            WindowAckSize windowAckSize = (WindowAckSize) rtmpPacket;
-                            int size = windowAckSize.getAcknowledgementWindowSize();
-                            Log.d(TAG, "handleRxPacketLoop(): Setting acknowledgement window size: " + size);
-                            rtmpSessionInfo.setAcknowledgmentWindowSize(size);
-                            break;
-                        case SET_PEER_BANDWIDTH:
-                            SetPeerBandwidth bw = (SetPeerBandwidth) rtmpPacket;
-                            rtmpSessionInfo.setAcknowledgmentWindowSize(bw.getAcknowledgementWindowSize());
-                            int acknowledgementWindowsize = rtmpSessionInfo.getAcknowledgementWindowSize();
-                            ChunkStreamInfo chunkStreamInfo = rtmpSessionInfo.getChunkStreamInfo(ChunkStreamInfo.RTMP_CID_PROTOCOL_CONTROL);
-                            Log.d(TAG, "handleRxPacketLoop(): Send acknowledgement window size: " + acknowledgementWindowsize);
-                            sendRtmpPacket(new WindowAckSize(acknowledgementWindowsize, chunkStreamInfo));
-                            // Set socket option
-                            socket.setSendBufferSize(acknowledgementWindowsize);
-                            break;
-                        case COMMAND_AMF0:
-                            handleRxInvoke((Command) rtmpPacket);
-                            break;
-                        default:
-                            Log.w(TAG, "handleRxPacketLoop(): Not handling unimplemented/unknown packet of type: " + rtmpPacket.getHeader().getMessageType());
-                            break;
+                if (rtmpDecoder != null) {
+                    RtmpPacket rtmpPacket = rtmpDecoder.readPacket(inputStream);
+                    if (rtmpPacket != null) {
+                        //Log.d(TAG, "handleRxPacketLoop(): RTMP rx packet message type: " + rtmpPacket.getHeader().getMessageType());
+                        switch (rtmpPacket.getHeader().getMessageType()) {
+                            case ABORT:
+                                rtmpSessionInfo.getChunkStreamInfo(((Abort) rtmpPacket).getChunkStreamId()).clearStoredChunks();
+                                break;
+                            case USER_CONTROL_MESSAGE:
+                                UserControl user = (UserControl) rtmpPacket;
+                                switch (user.getType()) {
+                                    case STREAM_BEGIN:
+                                        if (currentStreamId != user.getFirstEventData()) {
+                                            mHandler.notifyRtmpIllegalStateException(new IllegalStateException("Current stream ID error!"));
+                                        }
+                                        break;
+                                    case PING_REQUEST:
+                                        ChunkStreamInfo channelInfo = rtmpSessionInfo.getChunkStreamInfo(ChunkStreamInfo.RTMP_CID_PROTOCOL_CONTROL);
+                                        Log.d(TAG, "handleRxPacketLoop(): Sending PONG reply..");
+                                        UserControl pong = new UserControl(user, channelInfo);
+                                        sendRtmpPacket(pong);
+                                        break;
+                                    case STREAM_EOF:
+                                        Log.i(TAG, "handleRxPacketLoop(): Stream EOF reached, closing RTMP writer...");
+                                        break;
+                                    default:
+                                        // Ignore...
+                                        break;
+                                }
+                                break;
+                            case WINDOW_ACKNOWLEDGEMENT_SIZE:
+                                WindowAckSize windowAckSize = (WindowAckSize) rtmpPacket;
+                                int size = windowAckSize.getAcknowledgementWindowSize();
+                                Log.d(TAG, "handleRxPacketLoop(): Setting acknowledgement window size: " + size);
+                                rtmpSessionInfo.setAcknowledgmentWindowSize(size);
+                                break;
+                            case SET_PEER_BANDWIDTH:
+                                SetPeerBandwidth bw = (SetPeerBandwidth) rtmpPacket;
+                                rtmpSessionInfo.setAcknowledgmentWindowSize(bw.getAcknowledgementWindowSize());
+                                int acknowledgementWindowsize = rtmpSessionInfo.getAcknowledgementWindowSize();
+                                ChunkStreamInfo chunkStreamInfo = rtmpSessionInfo.getChunkStreamInfo(ChunkStreamInfo.RTMP_CID_PROTOCOL_CONTROL);
+                                Log.d(TAG, "handleRxPacketLoop(): Send acknowledgement window size: " + acknowledgementWindowsize);
+                                sendRtmpPacket(new WindowAckSize(acknowledgementWindowsize, chunkStreamInfo));
+                                // Set socket option
+                                socket.setSendBufferSize(acknowledgementWindowsize);
+                                break;
+                            case COMMAND_AMF0:
+                                handleRxInvoke((Command) rtmpPacket);
+                                break;
+                            default:
+                                Log.w(TAG, "handleRxPacketLoop(): Not handling unimplemented/unknown packet of type: " + rtmpPacket.getHeader().getMessageType());
+                                break;
+                        }
                     }
+                } else {
+                    Log.e(TAG, "rtmpDecoder: null");
                 }
             } catch (EOFException eof) {
                 Thread.currentThread().interrupt();
